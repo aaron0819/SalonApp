@@ -33,7 +33,7 @@ import com.hampson.calendar.Configurations;
 
 @Controller
 public class AuthenticatorController {
-	
+
 	@RequestMapping("/authenticate")
 	public ModelAndView authenticate(Model model) {
 		HttpTransport httpTransport = new NetHttpTransport();
@@ -50,12 +50,12 @@ public class AuthenticatorController {
 		// "redirect" to the authentication url
 		AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
 		authorizationUrl.setRedirectUri(redirectUri);
-
-		return new ModelAndView("redirect: " + redirectUri);
+		System.out.println(redirectUri);
+		return new ModelAndView("redirect:" + redirectUri);
 	}
-	
-    @RequestMapping("/oauth2callback")
-    public String redirect(Model model, @RequestParam("code") String authCode) throws IOException {
+
+	@RequestMapping("/oauth2callback")
+	public String redirect(Model model, @RequestParam("code") String authCode) throws IOException {
 		String userId = "testUser";
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
@@ -66,9 +66,9 @@ public class AuthenticatorController {
 
 		AuthorizationCodeFlow.Builder codeFlowBuilder = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
 				jsonFactory, clientId, clientSecret, scope);
-		
+
 		AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
-    	AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode);
+		AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode);
 		tokenRequest.setRedirectUri(redirectUri);
 		TokenResponse tokenResponse = tokenRequest.execute();
 
@@ -85,11 +85,9 @@ public class AuthenticatorController {
 			System.out.println("ID: " + entry.getId());
 			System.out.println("Summary: " + entry.getSummary());
 		}
-    	
-    	model.addAttribute("authCode", authCode);
-    	
-    	
-    	
-        return "authenticated";
-    }
+
+		model.addAttribute("authCode", authCode);
+
+		return "authenticated";
+	}
 }
