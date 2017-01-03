@@ -84,7 +84,7 @@ public class AuthenticatorController {
 		CalendarList feed = listRequest.execute();
 		for (CalendarListEntry entry : feed.getItems()) {
 			System.out.println("ID: " + entry.getId());
-			System.out.println(new AppointmentDAO().getAllEvents(entry.getId()));
+			//System.out.println(new AppointmentDAO().getAllEvents(entry.getId()));
 			System.out.println("Summary: " + entry.getSummary());
 		}
 
