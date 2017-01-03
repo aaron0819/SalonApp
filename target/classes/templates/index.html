@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
-<title>Hello Thymeleaf!</title>
+<title>Salon Appointment Manager</title>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet" />
@@ -10,14 +10,24 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1>Welcome Stylist name. Your scheduled appointments are
-		below.</h1>
+	<h1>Welcome Stylist. Your scheduled appointments are below.</h1>
 	<br />
-	<ul th:each="appointment : ">
-		<li th:text="${appointment}"></li>
-	</ul>
-<p th:each="appointment : ${appointments}">
-  <span th:text="'Time: ' + ${appointment.time} + 'Customer: ' + ${appointment.customer}"></span>
-</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th>Customer</th>
+				<th>Customer Phone Number</th>
+			</tr>
+		</thead>
+		<tbody th:each="appointment : ${appointments}">
+			<tr>
+				<td th:text="${appointment.time}"></td>
+				<td th:text="${appointment.first_name + ' ' + appointment.last_name}"></td>
+				<td th:text="${appointment.phone_num}"></td> 
+			</tr>
+		</tbody>
+	</table>
+
 </body>
 </html>
