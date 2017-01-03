@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Hello Thymeleaf!</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<h1>Welcome Stylist name. Your scheduled appointments are below.</h1>
+	<br />
+
+	<p th:each="appointment : ${appointments}">
+		<span
+			th:text="'Time: ' + ${appointment.time} + 'Customer: ' + ${appointment.customer}"></span>
+	</p>
+</body>
+</html>
