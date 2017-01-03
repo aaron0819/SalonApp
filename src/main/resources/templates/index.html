@@ -14,8 +14,8 @@
 	<br />
 
 	<p th:each="appointment : ${appointments}">
-		<span
-			th:text="'Time: ' + ${appointment.time} + 'Customer: ' + ${appointment.customer_id}"></span>
+		<!-- <span th:text="'Time: ' + ${appointment.time} + 'Customer: ' + ${appointment.customer_id}"></span> -->
+		<span th:text="${appointment}"></span>
 	</p>
 </body>
 </html>
