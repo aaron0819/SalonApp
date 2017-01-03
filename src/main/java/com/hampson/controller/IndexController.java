@@ -17,7 +17,7 @@ public class IndexController {
     @RequestMapping("/")
     public String index(Model model) {
     	
-    	model.addAttribute("appointments", appointmentDAO.getAppointments());
+    	model.addAttribute("appointments", appointmentDAO.getAllAppointments());
     	
         return "index";
     }
