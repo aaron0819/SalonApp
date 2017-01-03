@@ -1,4 +1,4 @@
-package com.hampson.controller;
+/*package com.hampson.calendar;
 
 import static com.google.api.services.calendar.CalendarScopes.CALENDAR;
 import static com.hampson.calendar.Configurations.CLIENT_ID;
@@ -7,13 +7,8 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.Set;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
@@ -29,13 +24,10 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
-import com.hampson.calendar.Configurations;
 
-@Controller
-public class AuthenticatorController {
-	
-	@RequestMapping("/authenticate")
-	public ModelAndView authenticate(Model model) {
+public class GoogleCalendarAuthenticator {
+
+	public static void main(String[] args) throws IOException {
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
 		Set<String> scope = singleton(CALENDAR);
@@ -46,29 +38,23 @@ public class AuthenticatorController {
 		AuthorizationCodeFlow.Builder codeFlowBuilder = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
 				jsonFactory, clientId, clientSecret, scope);
 		AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
+
+		//Session ID later?
+		String userId = "testUser";
 
 		// "redirect" to the authentication url
-		AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
+				AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
 		authorizationUrl.setRedirectUri(redirectUri);
+		System.out.println("Go to the following address:");
+		System.out.println(authorizationUrl);
 
-		return new ModelAndView("redirect: " + redirectUri);
-	}
-	
-    @RequestMapping("/oauth2callback")
-    public String redirect(Model model, @RequestParam("code") String authCode) throws IOException {
-		String userId = "testUser";
-		HttpTransport httpTransport = new NetHttpTransport();
-		JsonFactory jsonFactory = new JacksonFactory();
-		Set<String> scope = singleton(CALENDAR);
-		String clientId = CLIENT_ID;
-		String clientSecret = CLIENT_SECRET;
-		String redirectUri = REDIRECT_URI;
-
-		AuthorizationCodeFlow.Builder codeFlowBuilder = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
-				jsonFactory, clientId, clientSecret, scope);
+		// Use code to get auth token
+		System.out.print("Enter the code returned as a GET parameter: ");
+		Scanner sc = new Scanner(System.in);
+		String code = sc.nextLine();
+		sc.close();
 		
-		AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
-    	AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode);
+		AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(code);
 		tokenRequest.setRedirectUri(redirectUri);
 		TokenResponse tokenResponse = tokenRequest.execute();
 
@@ -85,11 +71,6 @@ public class AuthenticatorController {
 			System.out.println("ID: " + entry.getId());
 			System.out.println("Summary: " + entry.getSummary());
 		}
-    	
-    	model.addAttribute("authCode", authCode);
-    	
-    	
-    	
-        return "authenticated";
-    }
+	}
 }
+*/
