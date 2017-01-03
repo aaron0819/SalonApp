@@ -22,9 +22,9 @@
 		</thead>
 		<tbody th:each="appointment : ${appointments}">
 			<tr>
-				<td>${appointment.time}</td>
-				<td>${appointment.first_name + " " + appointment.last_name}</td>
-				<td>${appointment.phone_num}</td> 
+				<td th:text="${appointment.time}"></td>
+				<td th:text="${appointment.first_name + ' ' + appointment.last_name}"></td>
+				<td th:text="${appointment.phone_num}"></td> 
 			</tr>
 		</tbody>
 	</table>
