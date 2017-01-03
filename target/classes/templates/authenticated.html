@@ -11,7 +11,12 @@
 </head>
 <body>
 	<h1 th:text="${authCode}"></h1>
-
+	<table>
+		<tr th:each="entry : ${calendarEntries}">
+			<td th:text="${entry.id}"></td>
+			<td th:text="${entry.summary}"></td>
+		</tr>
+	</table>
 
 </body>
 </html>

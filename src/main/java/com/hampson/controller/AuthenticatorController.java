@@ -87,7 +87,8 @@ public class AuthenticatorController {
 		}
 
 		model.addAttribute("authCode", authCode);
-
+		model.addAttribute("calendarEntries", feed.getItems());
+		
 		return "authenticated";
 	}
 }
