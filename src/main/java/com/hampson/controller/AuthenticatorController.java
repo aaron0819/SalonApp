@@ -7,6 +7,7 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -29,8 +30,9 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
 import com.hampson.calendar.Configurations;
-import com.hampson.dao.AppointmentDAO;
 
 @Controller
 public class AuthenticatorController {
@@ -84,10 +86,19 @@ public class AuthenticatorController {
 		CalendarList feed = listRequest.execute();
 		for (CalendarListEntry entry : feed.getItems()) {
 			System.out.println("ID: " + entry.getId());
-			//System.out.println(new AppointmentDAO().getAllEvents(entry.getId()));
 			System.out.println("Summary: " + entry.getSummary());
+			
+			String pageToken = null;
+			do {
+			  Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
+			  List<Event> items = events.getItems();
+			  for (Event event : items) {
+			    System.out.println(event.getSummary());
+			  }
+			  pageToken = events.getNextPageToken();
+			} while (pageToken != null);
 		}
-
+		
 		model.addAttribute("authCode", authCode);
 		model.addAttribute("calendarEntries", feed.getItems());
 				
