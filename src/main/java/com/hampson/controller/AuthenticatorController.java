@@ -50,8 +50,8 @@ public class AuthenticatorController {
 		// "redirect" to the authentication url
 		AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
 		authorizationUrl.setRedirectUri(redirectUri);
-		System.out.println(redirectUri);
-		return new ModelAndView("redirect:" + redirectUri);
+		System.out.println(authorizationUrl);
+		return new ModelAndView("redirect:" + authorizationUrl.toURL());
 	}
 
 	@RequestMapping("/oauth2callback")
