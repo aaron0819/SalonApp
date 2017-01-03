@@ -6,17 +6,15 @@ import static com.hampson.calendar.Configurations.CLIENT_SECRET;
 import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
-import java.util.Scanner;
+import java.io.IOException;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
@@ -30,13 +28,13 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.hampson.calendar.Configurations;
-import com.hampson.dao.AppointmentDAO;
 
 @Controller
-public class IndexController {
-
-	@RequestMapping("/")
-	public ModelAndView index(Model model) {
+public class AuthenticatorController {
+	
+    @RequestMapping("/oauth2callback")
+    public String redirect(Model model, @RequestParam("code") String authCode) throws IOException {
+		String userId = "testUser";
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
 		Set<String> scope = singleton(CALENDAR);
@@ -46,15 +44,30 @@ public class IndexController {
 
 		AuthorizationCodeFlow.Builder codeFlowBuilder = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
 				jsonFactory, clientId, clientSecret, scope);
+		
 		AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
+    	AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode);
+		tokenRequest.setRedirectUri(redirectUri);
+		TokenResponse tokenResponse = tokenRequest.execute();
 
-		// Session ID later?
-		String userId = "testUser";
+		Credential credential = codeFlow.createAndStoreCredential(tokenResponse, userId);
 
-		// "redirect" to the authentication url
-		AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
-		authorizationUrl.setRedirectUri(redirectUri);
+		HttpRequestInitializer initializer = credential;
+		Calendar.Builder serviceBuilder = new Calendar.Builder(httpTransport, jsonFactory, initializer);
+		serviceBuilder.setApplicationName(Configurations.APP_NAME);
+		Calendar calendar = serviceBuilder.build();
 
-		return new ModelAndView("redirect:" + authorizationUrl.getRedirectUri());
-	}
+		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
+		CalendarList feed = listRequest.execute();
+		for (CalendarListEntry entry : feed.getItems()) {
+			System.out.println("ID: " + entry.getId());
+			System.out.println("Summary: " + entry.getSummary());
+		}
+    	
+    	model.addAttribute("authCode", authCode);
+    	
+    	
+    	
+        return "authenticated";
+    }
 }
