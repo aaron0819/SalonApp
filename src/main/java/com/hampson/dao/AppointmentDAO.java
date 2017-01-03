@@ -6,12 +6,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.client.RestTemplate;
+
+import com.hampson.controller.$missing$;
 
 public class AppointmentDAO {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Autowired
+	private RestTemplate restTemplate;
+	
 	public List<Map<String, Object>> getAllAppointments() {
 		List<Map<String, Object>> appointments = new ArrayList<Map<String, Object>>();
 
@@ -24,5 +30,9 @@ public class AppointmentDAO {
 
 		return appointments;
 	}
+	
+    public String getAllEvents(String calendarId) {
+        return restTemplate.getForObject("https://www.googleapis.com/calendar/v3/calendars/" + calendarId + "/events", String.class);
+    }
 
 }

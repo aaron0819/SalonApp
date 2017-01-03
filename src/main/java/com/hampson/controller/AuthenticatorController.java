@@ -30,6 +30,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.hampson.calendar.Configurations;
+import com.hampson.dao.AppointmentDAO;
 
 @Controller
 public class AuthenticatorController {
@@ -83,12 +84,13 @@ public class AuthenticatorController {
 		CalendarList feed = listRequest.execute();
 		for (CalendarListEntry entry : feed.getItems()) {
 			System.out.println("ID: " + entry.getId());
+			System.out.println(new AppointmentDAO().getAllEvents(entry.getId()));
 			System.out.println("Summary: " + entry.getSummary());
 		}
 
 		model.addAttribute("authCode", authCode);
 		model.addAttribute("calendarEntries", feed.getItems());
-		
+				
 		return "authenticated";
 	}
 }
