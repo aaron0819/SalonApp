@@ -8,7 +8,6 @@ import static java.util.Collections.singleton;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -80,28 +79,29 @@ public class AuthenticatorController {
 		Credential credential = codeFlow.createAndStoreCredential(tokenResponse, userId);
 
 		HttpRequestInitializer initializer = credential;
-		Calendar.Builder serviceBuilder = new Calendar.Builder(httpTransport, jsonFactory, initializer);
-		serviceBuilder.setApplicationName(Configurations.APP_NAME);
-		Calendar calendar = serviceBuilder.build();
+		Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, initializer).setApplicationName(Configurations.APP_NAME).build();
 
+		String pageToken = null;
+		do {
+		  Events events = calendar.events().list("primary").setPageToken(pageToken).execute();
+		  List<Event> items = events.getItems();
+		  for (Event event : items) {
+		    System.out.println(event.getSummary());
+		  }
+		  pageToken = events.getNextPageToken();
+		} while (pageToken != null);
+		
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
-		com.google.api.services.calendar.Calendar.Events.List appointments;
+		List<String> appointments = null;
 		
-		Collection<Object> a = calendar.events().list("primary").values();
-		
-		for(Object b : a) {
-			System.out.println("AOASDAS " + b);
+		for (CalendarListEntry entry : feed.getItems()) {
+			
 		}
-		
-/*		for (CalendarListEntry entry : feed.getItems()) {
-			appointments = calendar.events().list(entry.getId());
-		}*/
 
-		
 		model.addAttribute("authCode", authCode);
 		model.addAttribute("calendarEntries", feed.getItems());
-		model.addAttribute("appointments", new ArrayList<String>());
+		model.addAttribute("appointments", appointments);
 
 		return "authenticated";
 	}
