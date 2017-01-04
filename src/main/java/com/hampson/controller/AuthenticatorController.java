@@ -1,4 +1,4 @@
-/*package com.hampson.calendar;
+package com.hampson.controller;
 
 import static com.google.api.services.calendar.CalendarScopes.CALENDAR;
 import static com.hampson.calendar.Configurations.CLIENT_ID;
@@ -7,8 +7,15 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
@@ -24,10 +31,15 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
+import com.hampson.calendar.Configurations;
 
-public class GoogleCalendarAuthenticator {
+@Controller
+public class AuthenticatorController {
 
-	public static void main(String[] args) throws IOException {
+	@RequestMapping("/authenticate")
+	public ModelAndView authenticate(Model model) {
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
 		Set<String> scope = singleton(CALENDAR);
@@ -39,22 +51,28 @@ public class GoogleCalendarAuthenticator {
 				jsonFactory, clientId, clientSecret, scope);
 		AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
 
-		//Session ID later?
-		String userId = "testUser";
-
 		// "redirect" to the authentication url
-				AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
+		AuthorizationCodeRequestUrl authorizationUrl = codeFlow.newAuthorizationUrl();
 		authorizationUrl.setRedirectUri(redirectUri);
-		System.out.println("Go to the following address:");
 		System.out.println(authorizationUrl);
+		return new ModelAndView("redirect:" + authorizationUrl.toURL());
+	}
 
-		// Use code to get auth token
-		System.out.print("Enter the code returned as a GET parameter: ");
-		Scanner sc = new Scanner(System.in);
-		String code = sc.nextLine();
-		sc.close();
-		
-		AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(code);
+	@RequestMapping("/oauth2callback")
+	public String redirect(Model model, @RequestParam("code") String authCode) throws IOException {
+		String userId = "testUser";
+		HttpTransport httpTransport = new NetHttpTransport();
+		JsonFactory jsonFactory = new JacksonFactory();
+		Set<String> scope = singleton(CALENDAR);
+		String clientId = CLIENT_ID;
+		String clientSecret = CLIENT_SECRET;
+		String redirectUri = REDIRECT_URI;
+
+		AuthorizationCodeFlow.Builder codeFlowBuilder = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
+				jsonFactory, clientId, clientSecret, scope);
+
+		AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
+		AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode);
 		tokenRequest.setRedirectUri(redirectUri);
 		TokenResponse tokenResponse = tokenRequest.execute();
 
@@ -67,10 +85,26 @@ public class GoogleCalendarAuthenticator {
 
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
+		List<String> appointments = new ArrayList<String>();
 		for (CalendarListEntry entry : feed.getItems()) {
-			System.out.println("ID: " + entry.getId());
-			System.out.println("Summary: " + entry.getSummary());
+
+			String pageToken = null;
+			do {
+				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
+				List<Event> items = events.getItems();
+				for (Event event : items) {
+					appointments.add(event.getSummary());
+				}
+				pageToken = events.getNextPageToken();
+			} while (pageToken != null);
+			break;
+
 		}
+
+		model.addAttribute("authCode", authCode);
+		model.addAttribute("calendarEntries", feed.getItems());
+		model.addAttribute("appointments", appointments);
+
+		return "authenticated";
 	}
 }
-*/

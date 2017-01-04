@@ -10,12 +10,17 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1>Welcome, click the button below to permit access to your
-		Google calendars.</h1>
-
-	<form action="/authenticate">
-		<input type="submit" value="Authenticate" />
-	</form>
-
+	<h1 th:text="${authCode}"></h1>
+	<table>
+		<tr th:each="entry : ${calendarEntries}">
+			<td th:text="${entry.id}"></td>
+			<td th:text="${entry.summary}"></td>
+		</tr>
+	</table>
+	<table>
+		<tr th:each="appointment : ${appointments}">
+			<td th:text="${appointment}"></td>
+		</tr>
+	</table>
 </body>
 </html>
