@@ -93,6 +93,8 @@ public class AuthenticatorController {
 				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
 				List<Event> items = events.getItems();
 				for (Event event : items) {
+					System.out.println("S " + event.getSummary());
+					System.out.println("T " + event.getDescription());
 					appointments.add(event.getSummary());
 				}
 				pageToken = events.getNextPageToken();
