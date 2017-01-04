@@ -79,25 +79,25 @@ public class AuthenticatorController {
 		Credential credential = codeFlow.createAndStoreCredential(tokenResponse, userId);
 
 		HttpRequestInitializer initializer = credential;
-		Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, initializer).setApplicationName(Configurations.APP_NAME).build();
-		
+		Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, initializer)
+				.setApplicationName(Configurations.APP_NAME).build();
+
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
 		List<String> appointments = new ArrayList<String>();
-		
+
 		for (CalendarListEntry entry : feed.getItems()) {
-			if("Salon Appointments".equalsIgnoreCase(entry.getSummary())) {
-				String pageToken = null;
-				do {
-				  Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
-				  List<Event> items = events.getItems();
-				  for (Event event : items) {
-					  Event e = calendar.events().get(entry.getId(), event.getId()).execute();
-				    appointments.add(e.getSummary() + " " + e.getStart().toPrettyString() + " " + e.getEnd().toPrettyString());
-				  }
-				  pageToken = events.getNextPageToken();
-				} while (pageToken != null);
-			}
+			String pageToken = null;
+			do {
+				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
+				List<Event> items = events.getItems();
+				for (Event event : items) {
+					Event e = calendar.events().get(entry.getId(), event.getId()).execute();
+					appointments.add(
+							e.getSummary() + " " + e.getStart().toPrettyString() + " " + e.getEnd().toPrettyString());
+				}
+				pageToken = events.getNextPageToken();
+			} while (pageToken != null);
 
 		}
 
