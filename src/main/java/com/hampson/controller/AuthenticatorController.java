@@ -103,7 +103,7 @@ public class AuthenticatorController {
 
 		model.addAttribute("authCode", authCode);
 		model.addAttribute("calendarEntries", feed.getItems());
-		model.addAttribute("events", appointments);
+		model.addAttribute("appointments", appointments);
 
 		return "authenticated";
 	}
