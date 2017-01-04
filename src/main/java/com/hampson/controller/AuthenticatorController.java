@@ -80,23 +80,22 @@ public class AuthenticatorController {
 
 		HttpRequestInitializer initializer = credential;
 		Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, initializer).setApplicationName(Configurations.APP_NAME).build();
-
-		String pageToken = null;
-		do {
-		  Events events = calendar.events().list("asbg3ktbjvfhg071k38l466gr4@group.calendar.google.com").setPageToken(pageToken).execute();
-		  List<Event> items = events.getItems();
-		  for (Event event : items) {
-		    System.out.println(event);
-		  }
-		  pageToken = events.getNextPageToken();
-		} while (pageToken != null);
 		
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
-		List<String> appointments = null;
+		List<String> appointments = new ArrayList<String>();
 		
 		for (CalendarListEntry entry : feed.getItems()) {
-			
+			String pageToken = null;
+			do {
+			  Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
+			  List<Event> items = events.getItems();
+			  for (Event event : items) {
+			    System.out.println("Event: " + event.getId());
+			    appointments.add(event.getId());
+			  }
+			  pageToken = events.getNextPageToken();
+			} while (pageToken != null);
 		}
 
 		model.addAttribute("authCode", authCode);
