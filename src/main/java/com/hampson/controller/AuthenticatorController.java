@@ -86,7 +86,7 @@ public class AuthenticatorController {
 		  Events events = calendar.events().list("asbg3ktbjvfhg071k38l466gr4@group.calendar.google.com").setPageToken(pageToken).execute();
 		  List<Event> items = events.getItems();
 		  for (Event event : items) {
-		    System.out.println(event.getSummary());
+		    System.out.println(event);
 		  }
 		  pageToken = events.getNextPageToken();
 		} while (pageToken != null);
