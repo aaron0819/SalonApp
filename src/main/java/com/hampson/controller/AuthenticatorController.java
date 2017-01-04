@@ -86,7 +86,7 @@ public class AuthenticatorController {
 		List<String> appointments = new ArrayList<String>();
 		
 		for (CalendarListEntry entry : feed.getItems()) {
-			if("Salon Appointments".equalsIgnoreCase(entry.getSummary()) {
+			if("Salon Appointments".equalsIgnoreCase(entry.getSummary())) {
 				String pageToken = null;
 				do {
 				  Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
