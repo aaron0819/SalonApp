@@ -88,9 +88,9 @@ public class AuthenticatorController {
 		List<String> appointments = new ArrayList<String>();
 		for (CalendarListEntry entry : feed.getItems()) {
 
-			String pageToken = "";
+			String pageToken = null;
 			do {
-				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
+				Events events = calendar.events().list("asbg3ktbjvfhg071k38l466gr4@group.calendar.google.com").setPageToken(pageToken).execute();
 				List<Event> items = events.getItems();
 				for (Event event : items) {
 					System.out.println("S " + event.getSummary());
