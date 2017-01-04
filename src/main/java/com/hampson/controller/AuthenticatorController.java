@@ -95,6 +95,8 @@ public class AuthenticatorController {
 					Event e = calendar.events().get(entry.getId(), event.getId()).execute();
 					appointments.add(
 							e.getSummary() + " " + e.getStart().toPrettyString() + " " + e.getEnd().toPrettyString());
+					
+					System.out.println(entry.getSummary() + " " + e.getSummary());
 				}
 				pageToken = events.getNextPageToken();
 			} while (pageToken != null);
