@@ -8,6 +8,7 @@ import static java.util.Collections.singleton;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -85,25 +86,22 @@ public class AuthenticatorController {
 
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
-		List<String> appointments = new ArrayList<String>();
-		for (CalendarListEntry entry : feed.getItems()) {
-
-			String pageToken = null;
-			do {
-				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
-				List<Event> items = events.getItems();
-				for (Event event : items) {
-					appointments.add(event.getSummary());
-				}
-				pageToken = events.getNextPageToken();
-			} while (pageToken != null);
-			break;
-
+		com.google.api.services.calendar.Calendar.Events.List appointments;
+		
+		Collection<Object> a = calendar.events().list("primary").values();
+		
+		for(Object b : a) {
+			System.out.println("AOASDAS " + b);
 		}
+		
+/*		for (CalendarListEntry entry : feed.getItems()) {
+			appointments = calendar.events().list(entry.getId());
+		}*/
 
+		
 		model.addAttribute("authCode", authCode);
 		model.addAttribute("calendarEntries", feed.getItems());
-		model.addAttribute("appointments", appointments);
+		model.addAttribute("appointments", new ArrayList<String>());
 
 		return "authenticated";
 	}
