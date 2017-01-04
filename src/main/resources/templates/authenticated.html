@@ -17,6 +17,10 @@
 			<td th:text="${entry.summary}"></td>
 		</tr>
 	</table>
-
+	<table>
+		<tr th:each="appointment : ${appointments}">
+			<td th:text="${appointment}"></td>
+		</tr>
+	</table>
 </body>
 </html>

@@ -7,6 +7,7 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -84,24 +85,26 @@ public class AuthenticatorController {
 
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
+		List<String> appointments = new ArrayList<String>();
 		for (CalendarListEntry entry : feed.getItems()) {
-			System.out.println("ID: " + entry.getId());
-			System.out.println("Summary: " + entry.getSummary());
-			
+
 			String pageToken = null;
 			do {
-			  Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
-			  List<Event> items = events.getItems();
-			  for (Event event : items) {
-			    System.out.println(event.getSummary());
-			  }
-			  pageToken = events.getNextPageToken();
+				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
+				List<Event> items = events.getItems();
+				for (Event event : items) {
+					appointments.add(event.getDescription());
+				}
+				pageToken = events.getNextPageToken();
 			} while (pageToken != null);
+			break;
+
 		}
-		
+
 		model.addAttribute("authCode", authCode);
 		model.addAttribute("calendarEntries", feed.getItems());
-				
+		model.addAttribute("events", appointments);
+
 		return "authenticated";
 	}
 }
