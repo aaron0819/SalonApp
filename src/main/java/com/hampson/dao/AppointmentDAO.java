@@ -1,4 +1,4 @@
-package com.hampson.dao;
+/*package com.hampson.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,3 +26,4 @@ public class AppointmentDAO {
 		return appointments;
 	}
 }
+*/
