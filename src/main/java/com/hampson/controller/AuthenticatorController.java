@@ -134,6 +134,15 @@ public class AuthenticatorController {
 	}
 
 	private String parseDate(String date) {
-		return date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
+		date = date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
+		//int day = Integer.parseInt();
+		System.out.println("A: " + date.substring(0, date.indexOf("-")));
+		//int month = Integer.parseInt(date.substring(date.indexOf("-"), date.lastIndexOf("-")));
+		System.out.println(date.substring(date.indexOf("-"), date.lastIndexOf("-"))); 
+		//int year;
+		System.out.println(date.substring(date.lastIndexOf("-") + 1)); 
+
+		
+		return date;
 	}
 }
