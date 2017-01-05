@@ -32,6 +32,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import com.hampson.calendar.Configurations;
 import com.hampson.model.Appointment;
@@ -97,12 +98,21 @@ public class AuthenticatorController {
 			}
 			
 			String pageToken = null;
+			String date = null;
+			String startTime = null;
+			String endTime = null;
+			
 			do {
 				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
 				List<Event> items = events.getItems();
 				for (Event event : items) {
 					Event e = calendar.events().get(entry.getId(), event.getId()).execute();
-					appointments.add(new Appointment(e.getSummary(), e.getStart().toString(), e.getEnd().toString(), new Customer("Jane", "Doe", "000-000-0000")));
+					
+					date = parseDate(e.getStart().toString());
+					startTime = parseStartTime(e.getStart().toString());
+					endTime = parseEndTime(e.getEnd().toString());
+					
+					appointments.add(new Appointment(e.getSummary(), date, startTime, endTime, new Customer("Jane", "Doe", "000-000-0000")));
 				}
 				pageToken = events.getNextPageToken();
 			} while (pageToken != null);
@@ -112,5 +122,17 @@ public class AuthenticatorController {
 		model.addAttribute("appointments", appointments);
 
 		return "authenticated";
+	}
+
+	private String parseEndTime(String end) {
+		return end.substring(end.indexOf("T") + 1, end.indexOf(".") - 3);
+	}
+
+	private String parseStartTime(String start) {
+		return start.substring(start.indexOf("T") + 1, start.indexOf(".") - 3);
+	}
+
+	private String parseDate(String dateTime) {
+		return dateTime.substring(dateTime.indexOf(":") + 2, dateTime.indexOf("T") - 1);
 	}
 }

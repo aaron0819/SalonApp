@@ -7,21 +7,23 @@ public class Appointment implements Serializable {
 	private static final long serialVersionUID = -3277572530717692763L;
 
 	private String appointmentDesc;
+	private String date;
 	private String startTime;
 	private String endTime;
 	private Customer customer;
 	private Stylist stylist;
 
-	public Appointment(String appointmentDesc, String startTime, String endTime, Customer customer) {
+	public Appointment(String appointmentDesc, String date, String startTime, String endTime, Customer customer) {
 		super();
 		this.setAppointmentDesc(appointmentDesc);
+		this.setDate(date);
 		this.setStartTime(startTime);
 		this.setEndTime(endTime);
 		this.setCustomer(customer);
 	}
 	
-	public Appointment(String appointmentDesc, String startTime, String endTime, Customer customer, Stylist stylist) {
-		this(appointmentDesc, startTime, endTime, customer);
+	public Appointment(String appointmentDesc, String date, String startTime, String endTime, Customer customer, Stylist stylist) {
+		this(appointmentDesc, date, startTime, endTime, customer);
 		this.setStylist(stylist);
 	}
 
@@ -31,6 +33,14 @@ public class Appointment implements Serializable {
 
 	public void setAppointmentDesc(String appointmentDesc) {
 		this.appointmentDesc = appointmentDesc;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public String getStartTime() {
