@@ -140,9 +140,9 @@ public class AuthenticatorController {
 	}
 
 	private void convertToDate(String date) {
-		int year = Integer.parseInt(date.substring(0,4));
-		int month = Integer.parseInt(date.substring(5,7));
-		int day = Integer.parseInt(date.substring(9,11));
+		int year = Integer.parseInt(date.substring(0,3));
+		int month = Integer.parseInt(date.substring(5,6));
+		int day = Integer.parseInt(date.substring(8,9));
 
 		LocalDate d = LocalDate.of(year, Month.of(month), day);
 		System.out.println("A: " + d.getMonth());
