@@ -7,8 +7,8 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Month;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -135,19 +135,12 @@ public class AuthenticatorController {
 
 	private String parseDate(String date) {
 		date = date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
-		convertToDate(date);
-		return date;
-	}
-
-	private void convertToDate(String date) {
-		int year = Integer.parseInt(date.substring(0,3));
-		int month = Integer.parseInt(date.substring(5,6));
-		int day = Integer.parseInt(date.substring(8,9));
-
-		LocalDate d = LocalDate.of(year, Month.of(month), day);
-		System.out.println("A: " + d.getMonth());
-		System.out.println("B: " + d.getDayOfMonth());
-		System.out.println("B: " + d.getYear());
-
+		
+		LocalDateTime datetime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+		System.out.println("A: " + datetime.getMonth());
+		System.out.println("B: " + datetime.getDayOfMonth());
+		System.out.println("C: " + datetime.getYear());
+		
+		return datetime.toString();
 	}
 }
