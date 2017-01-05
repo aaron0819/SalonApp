@@ -7,6 +7,8 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +34,6 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import com.hampson.calendar.Configurations;
 import com.hampson.model.Appointment;
@@ -132,7 +133,21 @@ public class AuthenticatorController {
 		return start.substring(start.lastIndexOf("T") + 1, start.indexOf(".") - 3);
 	}
 
-	private String parseDate(String dateTime) {
-		return dateTime.substring(dateTime.indexOf(":") + 2, dateTime.lastIndexOf("T"));
+	private String parseDate(String date) {
+		date = date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
+		convertToDate(date);
+		return date;
+	}
+
+	private void convertToDate(String date) {
+		int year = Integer.parseInt(date.substring(0,4));
+		int month = Integer.parseInt(date.substring(5,7));
+		int day = Integer.parseInt(date.substring(9,11));
+
+		LocalDate d = LocalDate.of(year, Month.of(month), day);
+		System.out.println("A: " + d.getMonth());
+		System.out.println("B: " + d.getDayOfMonth());
+		System.out.println("B: " + d.getYear());
+
 	}
 }
