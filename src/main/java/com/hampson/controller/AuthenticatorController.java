@@ -124,7 +124,6 @@ public class AuthenticatorController {
 		return "authenticated";
 	}
 
-	//{ "dateTime" : "2017-01-03T17:30:00.000-05:00" }
 	private String parseEndTime(String end) {
 		return end.substring(end.lastIndexOf("T") + 1, end.indexOf(".") - 3);
 	}
@@ -134,6 +133,6 @@ public class AuthenticatorController {
 	}
 
 	private String parseDate(String dateTime) {
-		return dateTime.substring(dateTime.indexOf(":") + 2, dateTime.lastIndexOf("T") - 1);
+		return dateTime.substring(dateTime.indexOf(":") + 2, dateTime.lastIndexOf("T"));
 	}
 }

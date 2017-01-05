@@ -16,13 +16,22 @@
 </head>
 <body>
 	<table>
+		<thead>
+			<tr>
+				<th>Service</th>
+				<th>Date</th>
+				<th>From</th>
+				<th>To</th>
+				<th>With</th>
+				<th>Customer Contact Number</th>
+			</tr>
+		</thead>
 		<tr th:each="appointment : ${appointments}">
 			<td th:text="${appointment.appointmentDesc}"></td>
 			<td th:text="${appointment.date}"></td>
 			<td th:text="${appointment.startTime}"></td>
 			<td th:text="${appointment.endTime}"></td>
-			<td th:text="${appointment.customer.firstName}"></td>
-			<td th:text="${appointment.customer.lastName}"></td>
+			<td th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
 			<td th:text="${appointment.customer.phoneNumber}"></td>
 		</tr>
 	</table>
