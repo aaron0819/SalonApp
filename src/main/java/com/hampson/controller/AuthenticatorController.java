@@ -135,6 +135,7 @@ public class AuthenticatorController {
 
 	private String parseDate(String date) {
 		date = date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
+		System.out.println(date);
 		
 		LocalDateTime datetime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 		System.out.println("A: " + datetime.getMonth());
