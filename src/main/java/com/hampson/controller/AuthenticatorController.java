@@ -34,6 +34,8 @@ import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.hampson.calendar.Configurations;
+import com.hampson.model.Appointment;
+import com.hampson.model.Customer;
 
 @Controller
 public class AuthenticatorController {
@@ -84,7 +86,7 @@ public class AuthenticatorController {
 
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
-		List<String> appointments = new ArrayList<String>();
+		List<Appointment> appointments = new ArrayList<Appointment>();
 
 		for (CalendarListEntry entry : feed.getItems()) {
 			// if ("Salon Appointments".equalsIgnoreCase(entry.getSummary())) {
@@ -94,16 +96,13 @@ public class AuthenticatorController {
 				List<Event> items = events.getItems();
 				for (Event event : items) {
 					Event e = calendar.events().get(entry.getId(), event.getId()).execute();
-					appointments.add(
-							e.getSummary() + " " + e.getStart().toPrettyString() + " " + e.getEnd().toPrettyString());
+					appointments.add(new Appointment(e.getSummary(), e.getStart().toString(), e.getEnd().toString(), new Customer("Jane", "Doe", "000-000-0000")));
 				}
 				pageToken = events.getNextPageToken();
 			} while (pageToken != null);
 			// }
 		}
 
-		model.addAttribute("authCode", authCode);
-		model.addAttribute("calendarEntries", feed.getItems());
 		model.addAttribute("appointments", appointments);
 
 		return "authenticated";

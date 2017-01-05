@@ -10,16 +10,14 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1 th:text="${authCode}"></h1>
-	<table>
-		<tr th:each="entry : ${calendarEntries}">
-			<td th:text="${entry.id}"></td>
-			<td th:text="${entry.summary}"></td>
-		</tr>
-	</table>
 	<table>
 		<tr th:each="appointment : ${appointments}">
-			<td th:text="${appointment}"></td>
+			<td th:text="${appointment.appointmentDesc}"></td>
+			<td th:text="${appointment.startTime}"></td>
+			<td th:text="${appointment.endTime}"></td>
+			<td th:text="${appointment.customer.firstName}"></td>
+			<td th:text="${appointment.customer.lastName}"></td>
+			<td th:text="${appointment.customer.phoneNumber}"></td>
 		</tr>
 	</table>
 	
