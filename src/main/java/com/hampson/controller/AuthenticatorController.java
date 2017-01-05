@@ -90,6 +90,12 @@ public class AuthenticatorController {
 
 		for (CalendarListEntry entry : feed.getItems()) {
 			// if ("Salon Appointments".equalsIgnoreCase(entry.getSummary())) {
+			
+			//Stops holidays or contact calendars from being pulled in
+			if("Contacts".equalsIgnoreCase(entry.getSummary()) || "Holidays in United States".equalsIgnoreCase(entry.getSummary())) {
+				continue;
+			}
+			
 			String pageToken = null;
 			do {
 				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
