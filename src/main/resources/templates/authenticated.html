@@ -40,8 +40,22 @@
 	<br />
 	<form id="addAppointment" action="/addAppointment">
 		<label for="customerFirstName" id="customerFirstNameInputLabel">Customer First Name: </label>
-		<input type="text" id="customerFirstName" name="customerFirstNameInput" />
+		<input type="text" id="customerFirstName" name="customerFirstNameInput" required/>
+		<br />
+		<label for="customerLastName" id="customerLastNameInputLabel">Customer Last Name: </label>
 		<input type="text" id="customerLastName" name="customerLastNameInput" />
+		<br />
+		<label for="customerPhoneNumber" id="customerPhoneNumberInputLabel">Customer Phone Number (Optional): </label>
+		<input type="text" id="customerPhoneNumber" name="customerPhoneNumberInput" />
+		<br />
+		<label for="appointmentDate" id="appointmentDateInputLabel">Appointment Date:</label>
+		<input type="text" id="appointmentDate" name="appointmentDateInput" />
+		<br />
+		<label for="appointmentStartTime" id="appointmentStartTimeInputLabel">Appointment Start Time:</label>
+		<input type="text" id="appointmentStartTime" name="appointmentStartTimeInput" />
+		<br />
+		<label for="appointmentEndTime" id="appointmentEndTimeInputLabel">Appointment End Time:</label>
+		<input type="text" id="appointmentEndTime" name="appointmentEndTimeInput" />
 	</form>
 	
 </body>
