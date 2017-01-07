@@ -7,11 +7,11 @@ import static com.hampson.calendar.Configurations.REDIRECT_URI;
 import static java.util.Collections.singleton;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +63,7 @@ public class AuthenticatorController {
 	}
 
 	@RequestMapping("/oauth2callback")
-	public String redirect(Model model, @RequestParam("code") String authCode) throws IOException {
+	public String redirect(HttpServletRequest request, Model model, @RequestParam("code") String authCode) throws IOException {
 		String userId = "testUser";
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
@@ -92,34 +92,37 @@ public class AuthenticatorController {
 
 		for (CalendarListEntry entry : feed.getItems()) {
 			// if ("Salon Appointments".equalsIgnoreCase(entry.getSummary())) {
-			
-			//Stops holidays or contact calendars from being pulled in
-			if("Contacts".equalsIgnoreCase(entry.getSummary()) || "Holidays in United States".equalsIgnoreCase(entry.getSummary())) {
+
+			// Stops holidays or contact calendars from being pulled in
+			if ("Contacts".equalsIgnoreCase(entry.getSummary())
+					|| "Holidays in United States".equalsIgnoreCase(entry.getSummary())) {
 				continue;
 			}
-			
+
 			String pageToken = null;
 			String date = null;
 			String startTime = null;
 			String endTime = null;
-			
+
 			do {
 				Events events = calendar.events().list(entry.getId()).setPageToken(pageToken).execute();
 				List<Event> items = events.getItems();
 				for (Event event : items) {
 					Event e = calendar.events().get(entry.getId(), event.getId()).execute();
-					
+
 					date = parseDate(e.getStart().toString());
 					startTime = parseStartTime(e.getStart().toString());
 					endTime = parseEndTime(e.getEnd().toString());
-					
-					appointments.add(new Appointment(e.getSummary(), date, startTime, endTime, new Customer("Jane", "Doe", "000-000-0000")));
+
+					appointments.add(new Appointment(e.getSummary(), date, startTime, endTime,
+							new Customer("Jane", "Doe", "000-000-0000")));
 				}
 				pageToken = events.getNextPageToken();
 			} while (pageToken != null);
 			// }
 		}
 
+		model.addAttribute("calendarEntries", feed);
 		model.addAttribute("appointments", appointments);
 
 		return "authenticated";
@@ -138,7 +141,7 @@ public class AuthenticatorController {
 		int year = Integer.parseInt(date.substring(0, date.indexOf("-")));
 		int day = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.lastIndexOf("-")));
 		int month = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1));
-		
+
 		return String.format("%02d-%02d-%4d", day, month, year);
 	}
 }
