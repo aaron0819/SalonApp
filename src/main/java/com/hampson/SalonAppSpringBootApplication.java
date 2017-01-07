@@ -7,8 +7,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-import com.hampson.dao.AppointmentDAO;
-
 @SpringBootApplication
 public class SalonAppSpringBootApplication extends SpringBootServletInitializer {
 	@Override
@@ -20,10 +18,10 @@ public class SalonAppSpringBootApplication extends SpringBootServletInitializer 
 		SpringApplication.run(SalonAppSpringBootApplication.class, args);
 	}
 	
-	@Bean
+/*	@Bean
 	public AppointmentDAO appointmentDAO() {
 	    return new AppointmentDAO();
-	}
+	}*/
 	
     @Bean
     public RestTemplate geRestTemplate() {

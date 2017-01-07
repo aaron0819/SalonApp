@@ -8,19 +8,55 @@
 	rel="stylesheet" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		th, td {
+			padding: 5px;
+		}
+	</style>
 </head>
 <body>
-	<h1 th:text="${authCode}"></h1>
 	<table>
-		<tr th:each="entry : ${calendarEntries}">
-			<td th:text="${entry.id}"></td>
-			<td th:text="${entry.summary}"></td>
-		</tr>
-	</table>
-	<table>
+		<thead>
+			<tr>
+				<th>Service</th>
+				<th>Date</th>
+				<th>From</th>
+				<th>To</th>
+				<th>With</th>
+				<th>Customer Contact Number</th>
+			</tr>
+		</thead>
 		<tr th:each="appointment : ${appointments}">
-			<td th:text="${appointment}"></td>
+			<td th:text="${appointment.appointmentDesc}"></td>
+			<td th:text="${appointment.date}"></td>
+			<td th:text="${appointment.startTime}"></td>
+			<td th:text="${appointment.endTime}"></td>
+			<td th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
+			<td th:text="${appointment.customer.phoneNumber}"></td>
 		</tr>
 	</table>
+	
+	<br />
+	<br />
+	<form id="addAppointment" action="/addAppointment">
+		<label for="customerFirstName" id="customerFirstNameInputLabel">Customer First Name: </label>
+		<input type="text" id="customerFirstName" name="customerFirstNameInput" required/>
+		<br />
+		<label for="customerLastName" id="customerLastNameInputLabel">Customer Last Name: </label>
+		<input type="text" id="customerLastName" name="customerLastNameInput" />
+		<br />
+		<label for="customerPhoneNumber" id="customerPhoneNumberInputLabel">Customer Phone Number (Optional): </label>
+		<input type="text" id="customerPhoneNumber" name="customerPhoneNumberInput" />
+		<br />
+		<label for="appointmentDate" id="appointmentDateInputLabel">Appointment Date:</label>
+		<input type="text" id="appointmentDate" name="appointmentDateInput" />
+		<br />
+		<label for="appointmentStartTime" id="appointmentStartTimeInputLabel">Appointment Start Time:</label>
+		<input type="text" id="appointmentStartTime" name="appointmentStartTimeInput" />
+		<br />
+		<label for="appointmentEndTime" id="appointmentEndTimeInputLabel">Appointment End Time:</label>
+		<input type="text" id="appointmentEndTime" name="appointmentEndTimeInput" />
+	</form>
+	
 </body>
 </html>
