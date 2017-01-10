@@ -8,11 +8,11 @@
 	rel="stylesheet" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<style>
-		th, td {
-			padding: 5px;
-		}
-	</style>
+<style>
+th, td {
+	padding: 5px;
+}
+</style>
 </head>
 <body>
 	<table>
@@ -31,32 +31,67 @@
 			<td th:text="${appointment.date}"></td>
 			<td th:text="${appointment.startTime}"></td>
 			<td th:text="${appointment.endTime}"></td>
-			<td th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
+			<td
+				th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
 			<td th:text="${appointment.customer.phoneNumber}"></td>
 		</tr>
 	</table>
-	
+
 	<br />
 	<br />
+	<h2>Schedule New Appointment</h2>
 	<form id="addAppointment" action="/addAppointment">
-		<label for="customerFirstName" id="customerFirstNameInputLabel">Customer First Name: </label>
-		<input type="text" id="customerFirstName" name="customerFirstNameInput" required/>
+		<table>
+			<tr>
+				<td><label for="appointmentType" id="appointmentTypeLabel">Type
+						of Appointment:</label></td>
+				<td><select id="appointmentType" name="appointmentType">
+						<option>Haircut</option>
+						<option>Nails</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label for="customerFirstName"
+					id="customerFirstNameInputLabel">Customer First Name: </label></td>
+				<td><input type="text" id="customerFirstName"
+					name="customerFirstName" /></td>
+			</tr>
+			<tr>
+				<td><label for="customerLastName"
+					id="customerLastNameInputLabel">Customer Last Name: </label></td>
+				<td><input type="text" id="customerLastName"
+					name="customerLastName" /></td>
+			</tr>
+			<tr>
+				<td><label for="customerPhoneNumber"
+					id="customerPhoneNumberInputLabel">Customer Phone Number
+						(Optional): </label></td>
+				<td><input type="text" id="customerPhoneNumber"
+					name="customerPhoneNumber" /></td>
+			</tr>
+			<tr>
+				<td><label for="appointmentDate" id="appointmentDateInputLabel">Appointment
+						Date:</label></td>
+				<td><input type="date" id="appointmentDate"
+					name="appointmentDate" /></td>
+			</tr>
+			<tr>
+				<td><label for="appointmentStartTime"
+					id="appointmentStartTimeInputLabel">Appointment Start Time:</label></td>
+				<td><input type="time" id="appointmentStartTime"
+					name="appointmentStartTime" /></td>
+			</tr>
+			<tr>
+				<td><label for="appointmentEndTime"
+					id="appointmentEndTimeInputLabel">Appointment End Time:</label></td>
+				<td><input type="time" id="appointmentEndTime"
+					name="appointmentEndTime" /></td>
+			</tr>
+		</table>
+		
 		<br />
-		<label for="customerLastName" id="customerLastNameInputLabel">Customer Last Name: </label>
-		<input type="text" id="customerLastName" name="customerLastNameInput" />
-		<br />
-		<label for="customerPhoneNumber" id="customerPhoneNumberInputLabel">Customer Phone Number (Optional): </label>
-		<input type="text" id="customerPhoneNumber" name="customerPhoneNumberInput" />
-		<br />
-		<label for="appointmentDate" id="appointmentDateInputLabel">Appointment Date:</label>
-		<input type="text" id="appointmentDate" name="appointmentDateInput" />
-		<br />
-		<label for="appointmentStartTime" id="appointmentStartTimeInputLabel">Appointment Start Time:</label>
-		<input type="text" id="appointmentStartTime" name="appointmentStartTimeInput" />
-		<br />
-		<label for="appointmentEndTime" id="appointmentEndTimeInputLabel">Appointment End Time:</label>
-		<input type="text" id="appointmentEndTime" name="appointmentEndTimeInput" />
+		<input type="submit" value="Submit" />
 	</form>
-	
+
 </body>
 </html>
