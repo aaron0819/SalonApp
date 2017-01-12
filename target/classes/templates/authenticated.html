@@ -15,6 +15,7 @@ th, td {
 </style>
 </head>
 <body>
+	<h2>My Upcoming Appointments</h2>
 	<table>
 		<thead>
 			<tr>
@@ -40,12 +41,13 @@ th, td {
 	<br />
 	<br />
 	<h2>Schedule New Appointment</h2>
-	<form id="addAppointment" action="/addAppointment">
+	<form id="addAppointment" action="/addAppointment" method="post">
 		<table>
 			<tr>
 				<td><label for="appointmentType" id="appointmentTypeLabel">Type
 						of Appointment:</label></td>
 				<td><select id="appointmentType" name="appointmentType">
+						<option></option>
 						<option>Haircut</option>
 						<option>Nails</option>
 				</select></td>
@@ -66,7 +68,7 @@ th, td {
 				<td><label for="customerPhoneNumber"
 					id="customerPhoneNumberInputLabel">Customer Phone Number
 						(Optional): </label></td>
-				<td><input type="text" id="customerPhoneNumber"
+				<td><input type="tel" id="customerPhoneNumber"
 					name="customerPhoneNumber" /></td>
 			</tr>
 			<tr>
@@ -88,9 +90,8 @@ th, td {
 					name="appointmentEndTime" /></td>
 			</tr>
 		</table>
-		
-		<br />
-		<input type="submit" value="Submit" />
+
+		<br /> <input type="submit" value="Submit" />
 	</form>
 
 </body>

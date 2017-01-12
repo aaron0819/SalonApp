@@ -1,14 +1,12 @@
 package com.hampson.controller;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.api.client.util.DateTime;
@@ -18,7 +16,8 @@ import com.google.api.services.calendar.model.EventDateTime;
 
 @Controller
 public class AddAppointmentController {
-	@RequestMapping("/addAppointment")
+
+	@PostMapping("/addAppointment")
 	public String addEvent(HttpServletRequest request, Model model,
 			@RequestParam("appointmentType") String appointmentType,
 			@RequestParam("customerFirstName") String customerFirstName,
@@ -29,7 +28,7 @@ public class AddAppointmentController {
 			@RequestParam("appointmentEndTime") String appointmentEndTime) throws IOException {
 		
 		Event event = new Event().setSummary(appointmentType).setLocation("800 Howard St., San Francisco, CA 94103")
-				.setDescription("Customer: " + customerFirstName + " " + customerLastName + ";\nCustomer Phone Number: "
+				.setDescription("Customer:" + customerFirstName + " " + customerLastName + ";\nCustomer Phone Number:"
 						+ customerPhoneNumber + ";");
 
 		DateTime startDateTime = new DateTime(appointmentDate + "T" + appointmentStartTime + ":00-05:00");
