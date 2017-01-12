@@ -27,10 +27,11 @@ public class AddAppointmentController {
 			@RequestParam("appointmentStartTime") String appointmentStartTime,
 			@RequestParam("appointmentEndTime") String appointmentEndTime) throws IOException {
 		
+		
 		Event event = new Event().setSummary(appointmentType).setLocation("800 Howard St., San Francisco, CA 94103")
 				.setDescription("Customer:" + customerFirstName + " " + customerLastName + ";\nCustomer Phone Number:"
 						+ customerPhoneNumber + ";");
-
+		
 		DateTime startDateTime = new DateTime(appointmentDate + "T" + appointmentStartTime + ":00-05:00");
 		EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("America/New_York");
 		event.setStart(start);
