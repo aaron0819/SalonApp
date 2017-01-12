@@ -3,6 +3,7 @@ package com.hampson.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,7 @@ import com.google.api.services.calendar.model.EventDateTime;
 public class AddAppointmentController {
 
 	@RequestMapping("/addAppointment")
-	public String addEvent(HttpServletRequest request, Model model,
+	public String addEvent(HttpServletRequest request, HttpServletResponse response, Model model,
 			@RequestParam("appointmentType") String appointmentType,
 			@RequestParam("customerFirstName") String customerFirstName,
 			@RequestParam("customerLastName") String customerLastName,
@@ -60,6 +61,8 @@ public class AddAppointmentController {
 		event = calendar.events().insert(calendarId, event).execute();
 		System.out.printf("Event created: %s\n", event.getHtmlLink());
 
+		response.sendRedirect("/oauth2callback?code=" + request.getSession().getAttribute("code"));
+		
 		return "redirect:/oauth2callback?code=" + request.getSession().getAttribute("code");
 	}
 }
