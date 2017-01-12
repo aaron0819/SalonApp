@@ -27,6 +27,7 @@ public class AddAppointmentController {
 			@RequestParam("appointmentStartTime") String appointmentStartTime,
 			@RequestParam("appointmentEndTime") String appointmentEndTime) throws IOException {
 		
+		System.out.println(request.getQueryString());
 		
 		Event event = new Event().setSummary(appointmentType).setLocation("800 Howard St., San Francisco, CA 94103")
 				.setDescription("Customer:" + customerFirstName + " " + customerLastName + ";\nCustomer Phone Number:"
@@ -59,6 +60,7 @@ public class AddAppointmentController {
 		event = calendar.events().insert(calendarId, event).execute();
 		System.out.printf("Event created: %s\n", event.getHtmlLink());
 
-		return "redirect:/oauth2callback?code=" + request.getSession().getAttribute("code");
+		//return "redirect:/oauth2callback?code=" + request.getSession().getAttribute("code");
+		return "appointmentCalendar";
 	}
 }
