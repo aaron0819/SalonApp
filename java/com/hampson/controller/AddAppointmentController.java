@@ -60,6 +60,6 @@ public class AddAppointmentController {
 		event = calendar.events().insert(calendarId, event).execute();
 		System.out.printf("Event created: %s\n", event.getHtmlLink());
 
-		return "redirect:/https://salonapp-springboot.herokuapp.com/oauth2callback";
+		return "redirect:/oauth2callback";
 	}
 }
