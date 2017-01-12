@@ -60,6 +60,6 @@ public class AddAppointmentController {
 		event = calendar.events().insert(calendarId, event).execute();
 		System.out.printf("Event created: %s\n", event.getHtmlLink());
 
-		return "redirect:/oauth2callback";
+		return "redirect:/oauth2callback?code=" + request.getSession().getAttribute("code");
 	}
 }
