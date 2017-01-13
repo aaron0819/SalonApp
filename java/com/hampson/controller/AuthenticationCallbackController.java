@@ -116,6 +116,7 @@ public class AuthenticationCallbackController {
 
 		}
 
+		model.addAttribute("code", authCode);
 		model.addAttribute("calendarEntries", feed);
 		model.addAttribute("appointments", appointments);
 

@@ -42,27 +42,10 @@ public class AddAppointmentController {
 		EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("America/New_York");
 		event.setEnd(end);
 
-		// EventAttendee[] attendees = new EventAttendee[] { new
-		// EventAttendee().setEmail("lpage@example.com"),
-		// new EventAttendee().setEmail("sbrin@example.com"), };
-		// event.setAttendees(Arrays.asList(attendees));
-
-		// EventReminder[] reminderOverrides = new EventReminder[] {
-		// new EventReminder().setMethod("email").setMinutes(24 * 60),
-		// new EventReminder().setMethod("popup").setMinutes(10),
-		// };
-		// Event.Reminders reminders = new Event.Reminders()
-		// .setUseDefault(false)
-		// .setOverrides(Arrays.asList(reminderOverrides));
-		// event.setReminders(reminders);
-
 		String calendarId = "primary";
 		Calendar calendar = (Calendar) request.getSession().getAttribute("calendar");
 		event = calendar.events().insert(calendarId, event).execute();
-		System.out.printf("Event created: %s\n", event.getHtmlLink());
-
-		response.sendRedirect("/oauth2callback?code=" + request.getSession().getAttribute("code"));
-		
-		return "redirect:/oauth2callback?code=" + request.getSession().getAttribute("code");
+				
+		return "successfulAppointmentAdd";
 	}
 }
