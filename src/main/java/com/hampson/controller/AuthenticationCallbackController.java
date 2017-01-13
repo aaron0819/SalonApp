@@ -9,7 +9,6 @@ import static java.util.Collections.singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +43,7 @@ public class AuthenticationCallbackController {
 	private Calendar calendar;
 	
 	@RequestMapping("/oauth2callback")
-	public String redirect(HttpServletRequest request, Model model, @RequestParam("code") Optional<String> authCode)
+	public String redirect(HttpServletRequest request, Model model, @RequestParam("code") String authCode)
 			throws IOException {
 
 		String userId = "testUser";
@@ -60,7 +59,7 @@ public class AuthenticationCallbackController {
 					jsonFactory, clientId, clientSecret, scope).setAccessType("offline").setApprovalPrompt("force");
 
 			AuthorizationCodeFlow codeFlow = codeFlowBuilder.build();
-			AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode.toString());
+			AuthorizationCodeTokenRequest tokenRequest = codeFlow.newTokenRequest(authCode);
 			tokenRequest.setRedirectUri(redirectUri);
 			TokenResponse tokenResponse = tokenRequest.execute();
 
