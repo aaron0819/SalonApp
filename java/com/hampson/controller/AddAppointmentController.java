@@ -19,7 +19,7 @@ import com.google.api.services.calendar.model.EventDateTime;
 public class AddAppointmentController {
 
 	@RequestMapping("/addAppointment")
-	public String addEvent(HttpServletRequest request, HttpServletResponse response, Model model,
+	public String addEvent(HttpServletRequest request,
 			@RequestParam("appointmentType") String appointmentType,
 			@RequestParam("customerFirstName") String customerFirstName,
 			@RequestParam("customerLastName") String customerLastName,
@@ -27,8 +27,6 @@ public class AddAppointmentController {
 			@RequestParam("appointmentDate") String appointmentDate,
 			@RequestParam("appointmentStartTime") String appointmentStartTime,
 			@RequestParam("appointmentEndTime") String appointmentEndTime) throws IOException {
-		
-		System.out.println(request.getQueryString());
 		
 		Event event = new Event().setSummary(appointmentType).setLocation("800 Howard St., San Francisco, CA 94103")
 				.setDescription("Customer:" + customerFirstName + " " + customerLastName + ";\nCustomer Phone Number:"
