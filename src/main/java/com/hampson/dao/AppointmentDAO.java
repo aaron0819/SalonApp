@@ -1,35 +1,16 @@
 package com.hampson.dao;
 
-import static com.google.api.services.calendar.CalendarScopes.CALENDAR;
-import static com.hampson.calendar.Configurations.CLIENT_ID;
-import static com.hampson.calendar.Configurations.CLIENT_SECRET;
-import static com.hampson.calendar.Configurations.REDIRECT_URI;
-import static java.util.Collections.singleton;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import com.hampson.calendar.Configurations;
 import com.hampson.model.Appointment;
 import com.hampson.model.Customer;
-import com.hampson.util.AuthenticatorUtil;
 
 public class AppointmentDAO {
 
@@ -39,17 +20,7 @@ public class AppointmentDAO {
 		setAppointments(new ArrayList<Appointment>());
 	}
 	
-	public List<Appointment> getAllAppointments(String authCode) throws IOException {
-		AuthenticatorUtil authenticatorUtil = new AuthenticatorUtil();
-		HttpTransport httpTransport = new NetHttpTransport();
-		JsonFactory jsonFactory = new JacksonFactory();
-		
-		Credential credential = authenticatorUtil.retrieveCredentials(authCode, httpTransport, jsonFactory);
-
-		HttpRequestInitializer initializer = credential;
-		Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, initializer)
-				.setApplicationName(Configurations.APP_NAME).build();
-
+	public List<Appointment> getAllAppointments(Calendar calendar) throws IOException {
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
 
