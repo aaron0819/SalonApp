@@ -43,6 +43,6 @@ public class AddAppointmentController {
 		Calendar calendar = (Calendar) request.getSession().getAttribute("calendar");
 		event = calendar.events().insert(calendarId, event).execute();
 				
-		return new ModelAndView("redirect:/oauth2callback" + request.getSession().getAttribute("authCode"));
+		return new ModelAndView("redirect:/oauth2callback?code=" + request.getSession().getAttribute("authCode"));
 	}
 }
