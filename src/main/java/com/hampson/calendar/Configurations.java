@@ -19,7 +19,6 @@ public class Configurations {
 			return (String) configs.getProperty(name);
 		else {
 			Scanner in = new Scanner(System.in);
-			System.out.println("Set property '" + name + "':");
 			String value = in.nextLine();
 			configs.addProperty(name, value);
 			try {
