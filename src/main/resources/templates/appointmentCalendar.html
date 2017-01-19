@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+	lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <title>Salon Appointment Manager</title>
@@ -16,11 +18,15 @@ th, td {
 </head>
 <body>
 	<div class="container">
-		<div class="col-xs-12" style="text-align: center;">
+		<div
+			class="col-xs-12"
+			style="text-align: center;">
 			<h2>My Upcoming Appointments</h2>
 		</div>
 		<div class="col-xs-12">
-			<table class="table-bordered table-striped" style="margin: 0 auto;">
+			<table
+				class="table-bordered table-striped"
+				style="margin: 0 auto;">
 				<thead>
 					<tr>
 						<th>Service</th>
@@ -43,51 +49,84 @@ th, td {
 			</table>
 		</div>
 		<br /> <br />
-		<div class="col-xs-12" style="text-align: center;">
+		<div
+			class="col-xs-12"
+			style="text-align: center;">
 			<h2>Schedule New Appointment</h2>
-			<form id="addAppointment" action="/addAppointment">
+			<form
+				id="addAppointment"
+				action="/addAppointment">
 				<div class="form-group">
-					<label for="appointmentType" id="appointmentTypeLabel">Type
-						of Appointment:</label> <select id="appointmentType"
-						name="appointmentType" class="form-control">
+					<label
+						for="appointmentType"
+						id="appointmentTypeLabel">Type of Appointment:</label> <select
+						id="appointmentType"
+						name="appointmentType"
+						class="form-control">
 						<option></option>
 						<option>Haircut</option>
 						<option>Nails</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="customerFirstName" id="customerFirstNameInputLabel">Customer
-						First Name: </label> <input type="text" id="customerFirstName"
-						name="customerFirstName" class="form-control" />
-				</div>
-				<div class="form-group">
-					<label for="customerLastName" id="customerLastNameInputLabel">Customer
-						Last Name: </label> <input type="text" id="customerLastName"
-						name="customerLastName" class="form-control" />
-				</div>
-				<div class="form-group">
-					<label for="customerPhoneNumber" id="customerPhoneNumberInputLabel">Customer
-						Phone Number (Optional): </label> <input type="tel"
-						id="customerPhoneNumber" name="customerPhoneNumber"
+					<label
+						for="customerFirstName"
+						id="customerFirstNameInputLabel">Customer First Name: </label> <input
+						type="text"
+						id="customerFirstName"
+						name="customerFirstName"
 						class="form-control" />
 				</div>
 				<div class="form-group">
-					<label for="appointmentDate" id="appointmentDateInputLabel">Appointment
-						Date:</label> <input type="date" id="appointmentDate"
-						name="appointmentDate" class="form-control" />
+					<label
+						for="customerLastName"
+						id="customerLastNameInputLabel">Customer Last Name: </label> <input
+						type="text"
+						id="customerLastName"
+						name="customerLastName"
+						class="form-control" />
 				</div>
 				<div class="form-group">
-					<label for="appointmentStartTime"
+					<label
+						for="customerPhoneNumber"
+						id="customerPhoneNumberInputLabel">Customer Phone Number
+						(Optional): </label> <input
+						type="tel"
+						id="customerPhoneNumber"
+						name="customerPhoneNumber"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label
+						for="appointmentDate"
+						id="appointmentDateInputLabel">Appointment Date:</label> <input
+						type="date"
+						id="appointmentDate"
+						name="appointmentDate"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label
+						for="appointmentStartTime"
 						id="appointmentStartTimeInputLabel">Appointment Start
-						Time:</label> <input type="time" id="appointmentStartTime"
-						name="appointmentStartTime" class="form-control" />
+						Time:</label> <input
+						type="time"
+						id="appointmentStartTime"
+						name="appointmentStartTime"
+						class="form-control" />
 				</div>
 				<div class="form-group">
-					<label for="appointmentEndTime" id="appointmentEndTimeInputLabel">Appointment
-						End Time:</label> <input type="time" id="appointmentEndTime"
-						name="appointmentEndTime" class="form-control" />
+					<label
+						for="appointmentEndTime"
+						id="appointmentEndTimeInputLabel">Appointment End Time:</label> <input
+						type="time"
+						id="appointmentEndTime"
+						name="appointmentEndTime"
+						class="form-control" />
 				</div>
-				<br /> <input type="submit" value="Submit" />
+				<br /> <input
+					type="submit"
+					value="Submit" />
 			</form>
 		</div>
 	</div>
