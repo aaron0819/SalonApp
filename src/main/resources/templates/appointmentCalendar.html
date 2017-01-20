@@ -5,11 +5,13 @@
 <head>
 <meta charset="UTF-8" />
 <title>Salon Appointment Manager</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet" />
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 th, td {
 	padding: 5px;
@@ -17,6 +19,31 @@ th, td {
 </style>
 </head>
 <body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button
+					type="button"
+					class="navbar-toggle"
+					data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a
+					class="navbar-brand"
+					href="">Salon Appointment Manager</a>
+			</div>
+			<div
+				class="collapse navbar-collapse"
+				id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="">My Appointments</a></li>
+					<li><a href="/bookNewAppointment">Book New Appointment</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 	<div class="container">
 		<div
 			class="col-xs-12"
@@ -49,86 +76,6 @@ th, td {
 			</table>
 		</div>
 		<br /> <br />
-		<div
-			class="col-xs-12"
-			style="text-align: center;">
-			<h2>Schedule New Appointment</h2>
-			<form
-				id="addAppointment"
-				action="/addAppointment">
-				<div class="form-group">
-					<label
-						for="appointmentType"
-						id="appointmentTypeLabel">Type of Appointment:</label> <select
-						id="appointmentType"
-						name="appointmentType"
-						class="form-control">
-						<option></option>
-						<option>Haircut</option>
-						<option>Nails</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label
-						for="customerFirstName"
-						id="customerFirstNameInputLabel">Customer First Name: </label> <input
-						type="text"
-						id="customerFirstName"
-						name="customerFirstName"
-						class="form-control" />
-				</div>
-				<div class="form-group">
-					<label
-						for="customerLastName"
-						id="customerLastNameInputLabel">Customer Last Name: </label> <input
-						type="text"
-						id="customerLastName"
-						name="customerLastName"
-						class="form-control" />
-				</div>
-				<div class="form-group">
-					<label
-						for="customerPhoneNumber"
-						id="customerPhoneNumberInputLabel">Customer Phone Number
-						(Optional): </label> <input
-						type="tel"
-						id="customerPhoneNumber"
-						name="customerPhoneNumber"
-						class="form-control" />
-				</div>
-				<div class="form-group">
-					<label
-						for="appointmentDate"
-						id="appointmentDateInputLabel">Appointment Date:</label> <input
-						type="date"
-						id="appointmentDate"
-						name="appointmentDate"
-						class="form-control" />
-				</div>
-				<div class="form-group">
-					<label
-						for="appointmentStartTime"
-						id="appointmentStartTimeInputLabel">Appointment Start
-						Time:</label> <input
-						type="time"
-						id="appointmentStartTime"
-						name="appointmentStartTime"
-						class="form-control" />
-				</div>
-				<div class="form-group">
-					<label
-						for="appointmentEndTime"
-						id="appointmentEndTimeInputLabel">Appointment End Time:</label> <input
-						type="time"
-						id="appointmentEndTime"
-						name="appointmentEndTime"
-						class="form-control" />
-				</div>
-				<br /> <input
-					type="submit"
-					value="Submit" />
-			</form>
-		</div>
 	</div>
 </body>
 </html>

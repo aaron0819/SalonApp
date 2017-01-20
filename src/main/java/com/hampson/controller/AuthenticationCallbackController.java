@@ -1,6 +1,7 @@
 package com.hampson.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,16 +18,16 @@ import com.hampson.dao.CalendarDAO;
 public class AuthenticationCallbackController {
 
 	@RequestMapping("/oauth2callback")
-	public String redirect(HttpServletRequest request, Model model, @RequestParam("code") String authCode)
+	public String redirect(HttpServletRequest request, Model model, @RequestParam("code") Optional<String> authCode)
 			throws IOException {
 		Calendar calendar;
 		if (null == request.getSession().getAttribute("calendar")) {
-			calendar = new CalendarDAO().getCalendar(authCode);
+			calendar = new CalendarDAO().getCalendar(authCode.get());
 			request.getSession().setAttribute("calendar", calendar);
 		} else {
 			calendar = (Calendar) request.getSession().getAttribute("calendar");
 		}
-
+		
 		model.addAttribute("appointments", new AppointmentDAO().getAllAppointments(calendar));
 
 		return "appointmentCalendar";

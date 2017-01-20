@@ -15,11 +15,11 @@ import com.hampson.model.Customer;
 public class AppointmentDAO {
 
 	private List<Appointment> appointments;
-	
+
 	public AppointmentDAO() {
 		setAppointments(new ArrayList<Appointment>());
 	}
-	
+
 	public List<Appointment> getAllAppointments(Calendar calendar) throws IOException {
 		Calendar.CalendarList.List listRequest = calendar.calendarList().list();
 		CalendarList feed = listRequest.execute();
@@ -44,20 +44,24 @@ public class AppointmentDAO {
 				for (Event event : items) {
 					Event e = calendar.events().get(entry.getId(), event.getId()).execute();
 
-					date = parseDate(e.getStart().toString());
-					startTime = parseStartTime(e.getStart().toString());
-					endTime = parseEndTime(e.getEnd().toString());
-					customerName = parseCustomerName(e.getDescription());
-					customerPhoneNumber = parsePhoneNumber(e.getDescription());
+					if (null != e.getDescription()) {
 
-					getAppointments().add(new Appointment(e.getSummary(), date, startTime, endTime,
-							new Customer(customerName[0], customerName[1], customerPhoneNumber)));
+						date = parseDate(e.getStart().toString());
+						startTime = parseStartTime(e.getStart().toString());
+						endTime = parseEndTime(e.getEnd().toString());
+						customerName = parseCustomerName(e.getDescription());
+						customerPhoneNumber = parsePhoneNumber(e.getDescription());
+
+						getAppointments().add(new Appointment(e.getSummary(), date, startTime, endTime,
+								new Customer(customerName[0], customerName[1], customerPhoneNumber)));
+					}
 				}
 				pageToken = events.getNextPageToken();
 			} while (pageToken != null);
 
 		}
 		return appointments;
+
 	}
 
 	private String[] parseCustomerName(String description) {
@@ -66,12 +70,17 @@ public class AppointmentDAO {
 		if (null != description && description.contains("Customer:")) {
 			customerName = description.substring(9, description.indexOf(";")).split(" ");
 		}
+		
+		if(null == customerName[0]) {
+			customerName[0] = "N/A";
+			customerName[1] = "N/A";
+		}
 
 		return customerName;
 	}
 
 	private String parsePhoneNumber(String description) {
-		String customerPhoneNumber = "";
+		String customerPhoneNumber = "N/A";
 
 		if (null != description && description.contains("Customer Phone Number:")) {
 
@@ -84,20 +93,37 @@ public class AppointmentDAO {
 	}
 
 	private String parseEndTime(String end) {
-		return end.substring(end.lastIndexOf("T") + 1, end.indexOf(".") - 3);
+		try {
+			end = end.substring(end.lastIndexOf("T") + 1, end.indexOf(".") - 3);
+		} catch (StringIndexOutOfBoundsException e) {
+			end = "N/A";
+		}
+		return end;
 	}
 
 	private String parseStartTime(String start) {
-		return start.substring(start.lastIndexOf("T") + 1, start.indexOf(".") - 3);
+
+		try {
+			start = start.substring(start.lastIndexOf("T") + 1, start.indexOf(".") - 3);
+		} catch (StringIndexOutOfBoundsException e) {
+			start = "N/A";
+		}
+		return start;
 	}
 
 	private String parseDate(String date) {
-		date = date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
-		int year = Integer.parseInt(date.substring(0, date.indexOf("-")));
-		int day = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.lastIndexOf("-")));
-		int month = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1));
+		try {
+			date = date.substring(date.indexOf(":") + 2, date.lastIndexOf("T"));
+			int year = Integer.parseInt(date.substring(0, date.indexOf("-")));
+			int day = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.lastIndexOf("-")));
+			int month = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1));
 
-		return String.format("%02d-%02d-%4d", day, month, year);
+			date = String.format("%02d-%02d-%4d", day, month, year);
+		} catch (StringIndexOutOfBoundsException e) {
+			date = "N/A";
+		}
+
+		return date;
 	}
 
 	public List<Appointment> getAppointments() {
