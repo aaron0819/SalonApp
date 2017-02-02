@@ -19,11 +19,13 @@ public class ExceptionHandlerController {
 		ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
 
 		mav.addObject("datetime", now());
-		mav.addObject("exception", e.getMessage() + "\n\n" + e.getStackTrace() + "\n\nSTATUS CODE: " + response.getStatus());
+		mav.addObject("exception",
+				e.getMessage() + "\n\n" + e.getStackTrace() + "\n\nSTATUS CODE: " + response.getStatus());
 		mav.addObject("url", request.getRequestURL());
 
-		System.out.println("ERROR: " + now() + "\n" + e.getMessage() + "\n\n" + e.getStackTrace());
-		
+		System.out.println("ERROR: " + now() + "\n" + e.getMessage() + "\n\n" + e.getStackTrace() + "\n\nSTATUS CODE: "
+				+ response.getStatus());
+
 		return mav;
 	}
 }
