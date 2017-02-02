@@ -43,7 +43,7 @@ public class ExceptionHandlerControllerTest {
 		LocalDateTime expectedDateTime = LocalDateTime.now();
 		Mockito.when(request.getRequestURL()).thenReturn(new StringBuffer(url));		
 		
-		ModelAndView actual = controller.defaultErrorHandler(request, exception);
+		ModelAndView actual = controller.defaultErrorHandler(request, null, exception);
 
 		LocalDateTime actualDateTime = (LocalDateTime) actual.getModel().get("datetime");
 		String actualException = (String) actual.getModel().get("exception");
