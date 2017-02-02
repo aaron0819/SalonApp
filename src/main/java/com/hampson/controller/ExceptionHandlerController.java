@@ -1,6 +1,6 @@
 package com.hampson.controller;
 
-import java.util.Date;
+import static java.time.LocalDateTime.now;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,9 +17,12 @@ public class ExceptionHandlerController {
 	public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
 		ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
 
-		mav.addObject("datetime", new Date());
-		mav.addObject("exception", e);
+		mav.addObject("datetime", now());
+		mav.addObject("exception", e.getMessage() + "\n\n" + e.getStackTrace());
 		mav.addObject("url", request.getRequestURL());
+
+		System.out.println("ERROR: " + now() + "\n" + e.getMessage() + "\n\n" + e.getStackTrace());
+		
 		return mav;
 	}
 }
