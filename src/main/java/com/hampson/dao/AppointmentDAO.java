@@ -2,7 +2,9 @@ package com.hampson.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
@@ -11,6 +13,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.hampson.model.Appointment;
 import com.hampson.model.Customer;
+import com.hampson.util.SortingUtil;
 
 public class AppointmentDAO {
 
@@ -60,7 +63,21 @@ public class AppointmentDAO {
 			} while (pageToken != null);
 
 		}
-		return appointments;
+
+		return new SortingUtil().sortAppointments(appointments);
+
+/*		Map<String, List<Appointment>> separatedAppointments = new HashMap<String, List<Appointment>>();
+
+		for (Appointment a : appointments) {
+			if (separatedAppointments.containsKey(a.getDate())) {
+				separatedAppointments.get(a.getDate()).add(a);
+			} else {
+				separatedAppointments.put(a.getDate(), new ArrayList<>());
+				separatedAppointments.get(a.getDate()).add(a);
+			}
+		}
+
+		return separatedAppointments;*/
 
 	}
 
@@ -70,8 +87,8 @@ public class AppointmentDAO {
 		if (null != description && description.contains("Customer:")) {
 			customerName = description.substring(9, description.indexOf(";")).split(" ");
 		}
-		
-		if(null == customerName[0]) {
+
+		if (null == customerName[0]) {
 			customerName[0] = "N/A";
 			customerName[1] = "N/A";
 		}
