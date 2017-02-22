@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.google.api.services.calendar.Calendar;
 import com.hampson.dao.AppointmentDAO;
 import com.hampson.dao.CalendarDAO;
+import com.hampson.salonapp.service.CustomerService;
 
 @Controller
 public class AuthenticationCallbackController {
+	
+	@Autowired
+	CustomerService customerService;
 
 	@RequestMapping("/oauth2callback")
 	public String redirect(HttpServletRequest request, Model model, @RequestParam("code") Optional<String> authCode)
@@ -28,11 +33,18 @@ public class AuthenticationCallbackController {
 			} else {
 				calendar = (Calendar) request.getSession().getAttribute("calendar");
 			}
-			
-			model.addAttribute("appointments", new AppointmentDAO().getAllAppointments(calendar));
-		} catch(Exception e) {
+
+			if (calendar != null) {
+				model.addAttribute("appointments", new AppointmentDAO().getAllAppointments(calendar));
+			} else {
+				model.addAttribute("error", "You currently have no available calendars");
+			}
+		} catch (Exception e) {
 			model.addAttribute("error", "There was an error during the retrieval of your calendar");
 		}
+
+		model.addAttribute(customerService.getAllCustomers());
+		
 		return "appointmentCalendar";
 	}
 }

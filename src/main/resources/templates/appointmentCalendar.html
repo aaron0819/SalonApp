@@ -76,6 +76,9 @@ th, td {
 						th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
 					<td th:text="${appointment.customer.phoneNumber}"></td>
 				</tr>
+				<tr th:each="customer : ${customers}">
+					<td th:text="${customer}"></td>
+				</tr>
 			</table>
 		</div>
 		<br /> <br />
