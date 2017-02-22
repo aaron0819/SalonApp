@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+	lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <title>Salon Appointment Manager</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet" />
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 th, td {
 	padding: 5px;
@@ -15,84 +19,69 @@ th, td {
 </style>
 </head>
 <body>
-	<h2>My Upcoming Appointments</h2>
-	<table>
-		<thead>
-			<tr>
-				<th>Service</th>
-				<th>Date</th>
-				<th>From</th>
-				<th>To</th>
-				<th>With</th>
-				<th>Customer Contact Number</th>
-			</tr>
-		</thead>
-		<tr th:each="appointment : ${appointments}">
-			<td th:text="${appointment.appointmentDesc}"></td>
-			<td th:text="${appointment.date}"></td>
-			<td th:text="${appointment.startTime}"></td>
-			<td th:text="${appointment.endTime}"></td>
-			<td
-				th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
-			<td th:text="${appointment.customer.phoneNumber}"></td>
-		</tr>
-	</table>
-
-	<br />
-	<br />
-	<h2>Schedule New Appointment</h2>
-	<form id="addAppointment" action="/addAppointment">
-		<table>
-			<tr>
-				<td><label for="appointmentType" id="appointmentTypeLabel">Type
-						of Appointment:</label></td>
-				<td><select id="appointmentType" name="appointmentType">
-						<option></option>
-						<option>Haircut</option>
-						<option>Nails</option>
-				</select></td>
-			</tr>
-			<tr>
-				<td><label for="customerFirstName"
-					id="customerFirstNameInputLabel">Customer First Name: </label></td>
-				<td><input type="text" id="customerFirstName"
-					name="customerFirstName" /></td>
-			</tr>
-			<tr>
-				<td><label for="customerLastName"
-					id="customerLastNameInputLabel">Customer Last Name: </label></td>
-				<td><input type="text" id="customerLastName"
-					name="customerLastName" /></td>
-			</tr>
-			<tr>
-				<td><label for="customerPhoneNumber"
-					id="customerPhoneNumberInputLabel">Customer Phone Number
-						(Optional): </label></td>
-				<td><input type="tel" id="customerPhoneNumber"
-					name="customerPhoneNumber" /></td>
-			</tr>
-			<tr>
-				<td><label for="appointmentDate" id="appointmentDateInputLabel">Appointment
-						Date:</label></td>
-				<td><input type="date" id="appointmentDate"
-					name="appointmentDate" /></td>
-			</tr>
-			<tr>
-				<td><label for="appointmentStartTime"
-					id="appointmentStartTimeInputLabel">Appointment Start Time:</label></td>
-				<td><input type="time" id="appointmentStartTime"
-					name="appointmentStartTime" /></td>
-			</tr>
-			<tr>
-				<td><label for="appointmentEndTime"
-					id="appointmentEndTimeInputLabel">Appointment End Time:</label></td>
-				<td><input type="time" id="appointmentEndTime"
-					name="appointmentEndTime" /></td>
-			</tr>
-		</table>
-
-		<br /> <input type="submit" value="Submit" />
-	</form>
-
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button
+					type="button"
+					class="navbar-toggle"
+					data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a
+					class="navbar-brand"
+					href="">Salon Appointment Manager</a>
+			</div>
+			<div
+				class="collapse navbar-collapse"
+				id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="">My Appointments</a></li>
+					<li><a href="/bookNewAppointment">Book New Appointment</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="col-xs-12">
+			<h2 th:text="${error}"></h2>
+		</div>
+		<div
+			class="col-xs-12"
+			style="text-align: center;">
+			<h2>My Upcoming Appointments</h2>
+		</div>
+		<div class="col-xs-12">
+			<table
+				class="table-bordered table-striped"
+				style="margin: 0 auto;">
+				<thead>
+					<tr>
+						<th>Service</th>
+						<th>Date</th>
+						<th>From</th>
+						<th>To</th>
+						<th>With</th>
+						<th>Customer Contact Number</th>
+					</tr>
+				</thead>
+				<tr th:each="appointment : ${appointments}">
+					<td th:text="${appointment.appointmentDesc}"></td>
+					<td th:text="${appointment.date}"></td>
+					<td th:text="${appointment.startTime}"></td>
+					<td th:text="${appointment.endTime}"></td>
+					<td
+						th:text="${appointment.customer.firstName} + ' ' + ${appointment.customer.lastName}"></td>
+					<td th:text="${appointment.customer.phoneNumber}"></td>
+				</tr>
+				<tr th:each="customer : ${customers}">
+					<td th:text="${customer}"></td>
+				</tr>
+			</table>
+		</div>
+		<br /> <br />
+	</div>
 </body>
 </html>

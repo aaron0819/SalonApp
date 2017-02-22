@@ -52,12 +52,37 @@
 			<artifactId>google-http-client-jackson</artifactId>
 			<version>1.15.0-rc</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
 		<!-- For handling the authentication configuration file. -->
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>3.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>2.0.2-beta</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -66,8 +91,73 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.jbehave</groupId>
+				<artifactId>jbehave-maven-plugin</artifactId>
+				<version>3.1.2</version>
+				<executions>
+					<execution>
+						<id>run-stories-as-embeddables</id>
+						<phase>integration-test</phase>
+						<configuration>
+							<includes>
+								<include>**/*Scenarios.java</include>
+							</includes>
+							<ignoreFailureInStories>true</ignoreFailureInStories>
+							<ignoreFailureInView>false</ignoreFailureInView>
+						</configuration>
+						<goals>
+							<goal>run-stories-as-embeddables</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-jbehave-site-resources</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<overwriteReleases>false</overwriteReleases>
+							<overwriteSnapshots>true</overwriteSnapshots>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.jbehave.site</groupId>
+									<artifactId>jbehave-site-resources</artifactId>
+									<version>3.1.1</version>
+									<type>zip</type>
+									<outputDirectory> ${project.build.directory}/jbehave/view</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-jbehave-reports-resources</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<overwriteReleases>false</overwriteReleases>
+							<overwriteSnapshots>true</overwriteSnapshots>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.jbehave</groupId>
+									<artifactId>jbehave-core</artifactId>
+									<version>3.1.2</version>
+									<outputDirectory>${project.build.directory}/jbehave/view</outputDirectory>
+									<includes>**\/*.css,**\/*.ftl,**\/*.js</includes>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
-
 </project>
