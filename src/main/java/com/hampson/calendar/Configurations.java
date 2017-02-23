@@ -1,9 +1,10 @@
 package com.hampson.calendar;
 
-import org.apache.commons.configuration.XMLPropertiesConfiguration;
-import org.apache.commons.configuration.ConfigurationException;
-import java.util.Scanner;
 import java.io.File;
+import java.util.Scanner;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.XMLPropertiesConfiguration;
 
 public class Configurations {
 	
