@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-  <entry key="clientId">417528969070-8ij800o9e7d24cv7lu4b8oi5t78inneo.apps.googleusercontent.com</entry>
-  <entry key="clientSecret">aCSPt7RI7SY7k76cAQFEr-OW</entry>
-  <entry key="redirectUri">https://salonapp-springboot.herokuapp.com/oauth2callback</entry>
-  <entry key="appName">Salon Appointment Manager</entry>
-</properties>
