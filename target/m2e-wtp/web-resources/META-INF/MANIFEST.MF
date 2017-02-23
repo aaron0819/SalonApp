@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
-Implementation-Title: SalonApp-SpringBoot
+Implementation-Title: SalonApp-SpringBootPostgreSQL
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: Aaron
-Implementation-Vendor-Id: com.hampson
+Implementation-Vendor-Id: com.hampson.salonapp
 Build-Jdk: 1.8.0_112
-Implementation-URL: http://projects.spring.io/spring-boot/SalonApp/
+Implementation-URL: http://projects.spring.io/spring-boot/SalonAppBoot
+ Postgres/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 
